@@ -1,0 +1,33 @@
+import os
+import jsonlines
+
+train = '../snli/snli_1.0_train.jsonl'
+valid = '../snli/snli_1.0_dev.jsonl'
+test = '../snli/snli_1.0_test.jsonl'
+
+def preprocess(in_file, pre_file, hyp_file):
+	pre = open(pre_file, 'w')
+	pre.close()
+	hyp = open(hyp_file, 'w')
+	hyp.close()
+
+	pre = open(pre_file, 'a')
+	hyp = open(hyp_file, 'a')
+	with jsonlines.open(in_file) as reader:
+		for datum in reader:
+			pre.write(' '.join(datum['sentence1'].lower()[:-1].split() + ['.'])+'\n')
+			hyp.write(' '.join(datum['sentence2'].lower()[:-1].split() + ['.'])+'\n')
+
+
+dir_ = '../snli-tokenized-en-de'
+train_pre = 'train.pre'
+train_hyp = 'train.hyp'
+valid_pre = 'valid.pre'
+valid_hyp = 'valid.hyp'
+test_pre = 'test.pre'
+test_hyp = 'test.hyp'
+
+if not os.path.exists(dir_):
+	os.mkdir(dir_)
+
+preprocess(test, os.path.join(dir_test_pre), os.path.join(dir_, test_hyp))
