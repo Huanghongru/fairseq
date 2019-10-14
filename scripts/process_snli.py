@@ -15,7 +15,7 @@ def preprocess(in_file, pre_file, hyp_file, label):
     hyp = open(hyp_file, 'a')
     with jsonlines.open(in_file) as reader:
         for datum in reader:
-            if datum['label'] == label:
+            if datum['gold_label'] == label:
                 pre.write(' '.join(datum['sentence1'].lower()[:-1].split() + ['.'])+'\n')
                 hyp.write(' '.join(datum['sentence2'].lower()[:-1].split() + ['.'])+'\n')
 
@@ -31,4 +31,7 @@ test_hyp = 'test.hyp'
 if not os.path.exists(dir_):
     os.mkdir(dir_)
 
-preprocess(test, os.path.join(dir_, test_pre), os.path.join(dir_, test_hyp), 'entailment')
+label = 'entailment'
+preprocess(test, os.path.join(dir_, train_pre), os.path.join(dir_, train_hyp), label)
+preprocess(test, os.path.join(dir_, valid_pre), os.path.join(dir_, valid_hyp), label)
+preprocess(test, os.path.join(dir_, test_pre), os.path.join(dir_, test_hyp), label)
