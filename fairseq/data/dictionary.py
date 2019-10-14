@@ -19,10 +19,10 @@ class Dictionary(object):
 
     def __init__(
         self,
-        pad='<pad>',
-        eos='</s>',
-        unk='<unk>',
-        bos='<s>',
+        pad='<pad>',    # padding token
+        eos='</s>',     # end of the sent
+        unk='<unk>',    # unknwn word
+        bos='<s>',      # begin of the sent
         extra_special_symbols=None,
     ):
         self.unk_word, self.pad_word, self.eos_word = unk, pad, eos
@@ -36,12 +36,13 @@ class Dictionary(object):
         if extra_special_symbols:
             for s in extra_special_symbols:
                 self.add_symbol(s)
-        self.nspecial = len(self.symbols)
+        self.nspecial = len(self.symbols)   # number of special symbols
 
     def __eq__(self, other):
         return self.indices == other.indices
 
     def __getitem__(self, idx):
+        # reload [] operation
         if idx < len(self.symbols):
             return self.symbols[idx]
         return self.unk_word

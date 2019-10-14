@@ -10,6 +10,9 @@ Data pre-processing: build vocabularies and binarize training data.
 from collections import Counter
 from itertools import zip_longest
 
+# `tasks` is a directory. tasks.__init__.py will automatically load
+# all the existed task into a dict called TASK_REGISTRY. Therefore
+# we don't need to specify the task name if we just run a translation code.
 from fairseq import options, tasks, utils
 from fairseq.data import indexed_dataset
 from fairseq.binarizer import Binarizer
@@ -73,6 +76,7 @@ def main(args):
                 {train_path(lang) for lang in [args.source_lang, args.target_lang]}, src=True
             )
         tgt_dict = src_dict
+    # by default execute this branch
     else:
         if args.srcdict:
             src_dict = task.load_dictionary(args.srcdict)
